@@ -54,14 +54,14 @@ PATHS			+=	$(O_PATH)
 
 # Files
 
-SRC				+= $(S_PATH)ft_putstr.c
-SRC				+= $(S_PATH)ft_putstr_fd.c
 SRC				+= $(S_PATH)ft_strlen.c
+SRC				+= $(S_PATH)log.c
 
 
 # Objects and Headers
 
 HDR				+=	libft.h
+HDR				+=	log.h
 
 OBJ				=	$(patsubst $(S_PATH)%.c, $(O_PATH)%.o, $(SRC))
 vpath %.h $(H_PATH)
