@@ -6,23 +6,21 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 15:04:25 by arsciand          #+#    #+#             */
-/*   Updated: 2021/03/12 15:26:55 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:17:40 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "log.h"
 #include <stdio.h>
-#include <unistd.h>
 
-void log_msg(LogLevel_T level ,  const unsigned char* sLogMessage) {
+void log_msg(e_loglevel level,  const char *s) {
     const char *level_colors[] = {
-        "\x1b[36m",
-        "\x1b[33m",
-        "\x1b[32m",
-        "\x1b[35m",
-        "\x1b[31m"
+        ANSI_COLOR_GREEN,
+        ANSI_COLOR_YELLOW,
+        ANSI_COLOR_CYAN,
+        ANSI_COLOR_MAGENTA,
+        ANSI_COLOR_RED
     };
 
-    dprintf(STDOUT_FILENO, "%s%s\n", level_colors[level], sLogMessage);
+    fprintf(stderr, "%s%s\n", level_colors[level], s);
 }
-

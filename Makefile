@@ -54,6 +54,9 @@ PATHS			+=	$(O_PATH)
 
 # Files
 
+SRC				+= $(S_PATH)ft_memset.c
+SRC				+= $(S_PATH)ft_getopts.c
+SRC				+= $(S_PATH)ft_strchr.c
 SRC				+= $(S_PATH)ft_strlen.c
 SRC				+= $(S_PATH)log.c
 
@@ -63,19 +66,21 @@ SRC				+= $(S_PATH)log.c
 HDR				+=	libft.h
 HDR				+=	log.h
 
+STD				+=	c17
+
 OBJ				=	$(patsubst $(S_PATH)%.c, $(O_PATH)%.o, $(SRC))
 vpath %.h $(H_PATH)
 
 # Variables
 
 DEBUG			=
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -std=$(STD)
 ifeq ($(DEBUG), g)
 	CFLAGS		=	-g
 else ifeq ($(DEBUG), fsanitize)
 	CFLAGS		=	-fsanitize=address
 else ifeq ($(DEBUG), hard)
-	CFLAGS		+=	-Wall -Weverything -fsanitize=address,undefined -Wno-cast-qual
+	CFLAGS		+=	-Weverything -fsanitize=address,undefined -Wno-cast-qual
 	CFLAGS		+=	-Wno-missing-noreturn -Wno-disabled-macro-expansion
 else ifeq ($(DEBUG), dev)
 	CFLAGS		=
