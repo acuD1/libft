@@ -6,15 +6,15 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:05:31 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 15:32:54 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:52:34 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strcpy(char *dst, const char *s)
+char    *ft_strcpy(char *dst, const char *s)
 {
-    size_t	i = 0;
+    size_t  i = 0;
 
     while (s && s[i])
     {

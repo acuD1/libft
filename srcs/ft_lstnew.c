@@ -6,16 +6,16 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 15:17:17 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 15:32:32 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:50:58 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_lst	*ft_lstnew(const void *content, size_t content_size)
+t_lst   *ft_lstnew(const void *content, size_t content_size)
 {
-    t_lst	*node = NULL;
-    void	*elem = NULL;
+    t_lst   *node = NULL;
+    void    *elem = NULL;
 
     if (!(node = ft_memalloc(sizeof(t_lst))))
         return (NULL);

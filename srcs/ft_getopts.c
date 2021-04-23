@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 14:10:28 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 15:37:00 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:52:02 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void    free_opt(t_opt *opt)
 {
     while (opt->opt_set)
     {
-        t_lst	*tmp = NULL;
+        t_lst   *tmp = NULL;
 
         ft_strdel(&((t_opt_set_db*)(opt->opt_set->content))->current);
         ft_strdel(&((t_opt_set_db*)(opt->opt_set->content))->arg);
@@ -53,20 +53,20 @@ static t_opt_set_db
     return (opt_set_db);
 }
 
-t_opt	*ft_getopts(
+t_opt   *ft_getopts(
             int argc, char **argv, const char *allowed, const char **allowed_ar)
 {
-    t_opt	*opt = NULL;
+    t_opt   *opt = NULL;
 
     if (!(opt = ft_memalloc(sizeof(t_opt))))
         return (NULL);
     for (size_t i = 1; i < (size_t)argc; ++i)
     {
-        uint8_t 		allowed_found 		= FALSE;
-        size_t 			j					= 1;
-        size_t 			z 					= 0;
-        char   			buffer[BUFF_SIZE];
-        t_opt_set_db	opt_set_db;
+        uint8_t         allowed_found       = FALSE;
+        size_t          j                   = 1;
+        size_t          z                   = 0;
+        char            buffer[BUFF_SIZE];
+        t_opt_set_db    opt_set_db;
 
         ft_memset(&opt_set_db, 0, sizeof(t_opt_set_db));
         ft_memset(buffer, 0, sizeof(char));

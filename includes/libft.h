@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 15:08:00 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 15:31:57 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:47:00 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 # define TRUE       1
 # define FALSE      0
 
-typedef struct		s_lst
+typedef struct      s_lst
 {
-    void			*content;
-    size_t			content_size;
-    struct s_lst	*next;
-    struct s_lst	*prev;
-}					t_lst;
+    void            *content;
+    size_t          content_size;
+    struct s_lst    *next;
+    struct s_lst    *prev;
+}                   t_lst;
 
 typedef struct      s_opt_set_db
 {
