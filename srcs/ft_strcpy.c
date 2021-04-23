@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 13:05:31 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/19 13:05:44 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:32:54 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 char	*ft_strcpy(char *dst, const char *s)
 {
-	size_t	i;
+    size_t	i = 0;
 
-	i = 0;
-	while (s && s[i])
-	{
-		dst[i] = s[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
+    while (s && s[i])
+    {
+        dst[i] = s[i];
+        i++;
+    }
+    dst[i] = '\0';
+    return (dst);
 }

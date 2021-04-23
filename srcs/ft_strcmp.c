@@ -6,12 +6,12 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 11:40:48 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 11:41:30 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:32:49 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	return (*s1 && *s2 && *s1 == *s2
-			? ft_strcmp(++s1, ++s2) : (unsigned char)*s1 - (unsigned char)*s2);
+    return (*s1 && *s2 && *s1 == *s2
+            ? ft_strcmp(++s1, ++s2) : (unsigned char)*s1 - (unsigned char)*s2);
 }

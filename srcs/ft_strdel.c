@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 16:41:39 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/19 16:41:52 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:32:57 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_strdel(char **as)
 {
-	if (!as || !*as)
-		return ;
-	free(*as);
-	*as = NULL;
+    if (!as || !*as)
+        return ;
+    free(*as);
+    *as = NULL;
 }

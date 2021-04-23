@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 12:41:56 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 12:45:25 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:38:48 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,9 @@
 
 size_t	ft_tablen(const char **array)
 {
-	size_t	i;
-	size_t	count;
+    size_t	count = 0;
 
-	i = 0;
-	count = 0;
-	while (array[i])
-	{
-		count++;
-		i++;
-	}
-	return (count);
+    for (size_t i = 0; array[i]; i++)
+        count++;
+    return (count);
 }

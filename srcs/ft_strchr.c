@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 14:24:14 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/09 16:04:27 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/23 15:32:46 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s)
-	{
-		if ((char)c == *s)
-			return ((char *)s);
-		s++;
-	}
-	return (!(char)c ? (char *)&s[ft_strlen(s)] : NULL);
+    while (*s)
+    {
+        if ((char)c == *s)
+            return ((char *)s);
+        s++;
+    }
+    return (!(char)c ? (char *)&s[ft_strlen(s)] : NULL);
 }
