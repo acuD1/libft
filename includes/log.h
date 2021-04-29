@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 14:37:54 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 15:50:16 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/26 17:26:14 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@
 # define LOG_INFO(msg)      log_msg(INFO,   (const char *)(msg))
 # define LOG_ERROR(msg)     log_msg(ERROR,  (const char *)(msg))
 # define LOG_FATAL(msg)     log_msg(FATAL,  (const char *)(msg))
+# define LOG_RESET(msg)     log_msg(RESET,  (const char *)(msg))
 
 typedef enum {
     DEBUG = 0,
     WARN,
     INFO,
-    ERROR ,
-    FATAL
+    ERROR,
+    FATAL,
+    RESET
 } e_loglevel;
 
 void                        log_msg(e_loglevel level,  const char *s);

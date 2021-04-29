@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_lstlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/23 11:40:48 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/29 15:51:41 by arsciand         ###   ########.fr       */
+/*   Created: 2021/04/28 15:09:20 by arsciand          #+#    #+#             */
+/*   Updated: 2021/04/28 15:10:51 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_strcmp(const char *s1, const char *s2)
+size_t  ft_lstlen(t_lst *lst)
 {
-    return (*s1 && *s2 && *s1 == *s2
-            ? ft_strcmp(++s1, ++s2) : (unsigned char)*s1 - (unsigned char)*s2);
+    t_lst   *node   = lst;
+    size_t  len     = 0;
+
+    if (!lst)
+        return (0);
+    while (node->next)
+    {
+        node = node->next;
+        len++;
+    }
+    return (len + 1);
 }

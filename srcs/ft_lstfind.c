@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isblank.c                                       :+:      :+:    :+:   */
+/*   ft_lstfind.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/23 11:18:04 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/23 15:50:22 by arsciand         ###   ########.fr       */
+/*   Created: 2021/04/29 12:43:35 by arsciand          #+#    #+#             */
+/*   Updated: 2021/04/29 12:44:47 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char    ft_isblank(char c)
+#include "libft.h"
+
+t_lst	*ft_lstfind(
+            t_lst *lst, void *to_find, void *content, int (*f)(void *, void *))
 {
-    return (c == ' ' || c == '\n' || c == '\t');
+	if (lst == NULL)
+		return (NULL);
+	return (f(content, to_find)
+        ? lst : ft_lstfind(lst->next, content, to_find, f));
 }

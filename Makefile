@@ -54,9 +54,10 @@ PATHS			+=	$(O_PATH)
 
 # Files
 
-SRC				+= $(S_PATH)ft_isblank.c
-SRC				+= $(S_PATH)ft_lstnew.c
+SRC				+= $(S_PATH)ft_lstfind.c
 SRC				+= $(S_PATH)ft_lstappend.c
+SRC				+= $(S_PATH)ft_lstlen.c
+SRC				+= $(S_PATH)ft_lstnew.c
 SRC				+= $(S_PATH)ft_memalloc.c
 SRC				+= $(S_PATH)ft_memcpy.c
 SRC				+= $(S_PATH)ft_memset.c
@@ -68,6 +69,8 @@ SRC				+= $(S_PATH)ft_strdel.c
 SRC				+= $(S_PATH)ft_strdup.c
 SRC				+= $(S_PATH)ft_strequ.c
 SRC				+= $(S_PATH)ft_strlen.c
+SRC				+= $(S_PATH)ft_tabcopy.c
+SRC				+= $(S_PATH)ft_tabdel.c
 SRC				+= $(S_PATH)ft_tablen.c
 SRC				+= $(S_PATH)log.c
 

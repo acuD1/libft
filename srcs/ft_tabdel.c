@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_tabdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/23 11:40:48 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/29 15:51:41 by arsciand         ###   ########.fr       */
+/*   Created: 2021/04/26 17:56:25 by arsciand          #+#    #+#             */
+/*   Updated: 2021/04/29 15:07:03 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_strcmp(const char *s1, const char *s2)
+void    ft_tabdel(char ***array)
 {
-    return (*s1 && *s2 && *s1 == *s2
-            ? ft_strcmp(++s1, ++s2) : (unsigned char)*s1 - (unsigned char)*s2);
+    char    **tmp = *array;
+
+    if (!tmp)
+        return ;
+    printf("yo-----------------------------\n");
+    for (size_t i = 0; tmp[i]; i++)
+        ft_strdel(&(tmp[i]));
+    free(*array);
+    *array = NULL;
 }
