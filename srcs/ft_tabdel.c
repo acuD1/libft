@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:56:25 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/29 15:07:03 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/30 13:09:00 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void    ft_tabdel(char ***array)
 
     if (!tmp)
         return ;
-    printf("yo-----------------------------\n");
     for (size_t i = 0; tmp[i]; i++)
         ft_strdel(&(tmp[i]));
     free(*array);

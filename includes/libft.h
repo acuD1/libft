@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 15:08:00 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/29 14:34:02 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/30 15:20:39 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 
 typedef struct      s_lst
 {
-    void            *content;
-    size_t          content_size;
     struct s_lst    *next;
     struct s_lst    *prev;
+    size_t          content_size;
+    void            *content;
 }                   t_lst;
 
 typedef struct      s_opt_set_db
@@ -37,24 +37,24 @@ typedef struct      s_opt_set_db
     char            *arg;
 }                   t_opt_set_db;
 
-typedef struct      s_opt
+typedef struct      s_opts_args
 {
-    uint64_t        all;
-    char            *invalid;
-    char            **args;
     t_lst           *opt_set;
-}                   t_opt;
+    uint64_t        all;
+    char            **args;
+    char            *invalid;
+}                   t_opts_args;
 
-typedef struct      s_opt_conf
+typedef struct      s_opts_conf
 {
     const char      *allowed_opt;
     const char      *allowed_opt_arg;
     const char      **allowed_opt_tab;
     const char      **allowed_opt_tab_arg;
-}                   t_opt_conf;
+}                   t_opts_conf;
 
 
-void                free_opt(t_opt *opt);
+void                free_opts_args(t_opts_args *opts_args);
 char	            ft_isblank(char c);
 t_lst	            *ft_lstappend(t_lst **alst, t_lst *new);
 t_lst	            *ft_lstfind(
@@ -62,7 +62,8 @@ t_lst	            *ft_lstfind(
                         int (*f)(void *, void *));
 size_t              ft_lstlen(t_lst *lst);
 t_lst	            *ft_lstnew(const void *content, size_t content_size);
-t_opt	            *ft_getopts(int argc, char **argv, t_opt_conf *opt_conf);
+t_opts_args	        *ft_get_opts_and_args(
+                        int argc, char **argv, t_opts_conf *opts_conf);
 void	            *ft_memalloc(size_t size);
 void	            *ft_memcpy(void *dst, const void *s, size_t n);
 void	            *ft_memset(void *s, int c, size_t len);
@@ -76,7 +77,7 @@ size_t              ft_strlen(const char *s);
 char                **ft_tabcopy(char **tab_dest, const char **tab_copy);
 void                ft_tabdel(char ***array);
 size_t	            ft_tablen(const char **array);
-void                getopts_debug(t_opt *opt);
+void                debug_opts_args(t_opts_args *opt);
 char                *get_opt_set_arg(t_lst **alst_opt_set, char *to_find);
 
 #endif
