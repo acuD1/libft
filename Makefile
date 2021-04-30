@@ -80,7 +80,7 @@ SRC				+= $(S_PATH)log.c
 HDR				+=	libft.h
 HDR				+=	log.h
 
-STD				+=	c17
+STD				+=	gnu17
 
 OBJ				=	$(patsubst $(S_PATH)%.c, $(O_PATH)%.o, $(SRC))
 vpath %.h $(H_PATH)

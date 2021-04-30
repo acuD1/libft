@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 17:53:18 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/26 18:13:13 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/04/30 15:37:31 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ char    **ft_tabcopy(char **tab_dest, const char **tab_copy)
 {
     size_t	i = 0;
 
-    if (!tab_copy || !(tab_dest = malloc(sizeof(char *) * (ft_tablen(tab_copy) + 1))))
+    if (!tab_copy
+        || !(tab_dest = malloc(sizeof(char *) * (ft_tablen(tab_copy) + 1))))
         return (NULL);
     while (tab_copy[i])
     {
