@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 15:08:00 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/30 15:20:39 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/05/01 16:44:48 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	            ft_strdel(char **as);
 char	            *ft_strdup(const char *s);
 uint8_t	            ft_strequ(const char *s1, const char *s2);
 size_t              ft_strlen(const char *s);
-char                **ft_tabcopy(char **tab_dest, const char **tab_copy);
+char                **ft_tabcopy(char **tab_dest, const char * const *tab_copy);
 void                ft_tabdel(char ***array);
-size_t	            ft_tablen(const char **array);
+size_t	            ft_tablen(const char * const *array);
 void                debug_opts_args(t_opts_args *opt);
 char                *get_opt_set_arg(t_lst **alst_opt_set, char *to_find);
 

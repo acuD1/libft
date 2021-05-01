@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/02 14:10:28 by arsciand          #+#    #+#             */
-/*   Updated: 2021/04/30 15:30:31 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/05/01 17:08:14 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void                debug_opts_args(t_opts_args *opts_args)
     printf("%s\n\n%s\n\t\t%s\n%s\n",
         ">> OPTS_ARGS DEBUG",
         "=>  invalid: ", opts_args->invalid, "=>  args:");
-    if (opts_args->args && ft_tablen((const char **)opts_args->args))
+    if (opts_args->args && ft_tablen((const char * const *)opts_args->args))
     {
         for (size_t i = 0; opts_args->args[i]; i++)
             printf("\t\t- [%zu] | %s\n", i, opts_args->args[i]);
@@ -247,7 +247,7 @@ t_opts_args         *ft_get_opts_and_args(
             if (!(args[n_arg++] = ft_strdup(argv[i])))
                 return (NULL);
     }
-    if (!(opts_args->args = ft_tabcopy(opts_args->args, (const char **)args)))
+    if (!(opts_args->args = ft_tabcopy(opts_args->args, (const char * const *)args)))
         return (NULL);
     for (size_t l = 0; args[l]; l++)
         ft_strdel(&args[l]);

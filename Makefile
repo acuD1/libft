@@ -94,8 +94,7 @@ ifeq ($(DEBUG), g)
 else ifeq ($(DEBUG), fsanitize)
 	CFLAGS		=	-fsanitize=address
 else ifeq ($(DEBUG), hard)
-	CFLAGS		+=	-Weverything -fsanitize=address,undefined -Wno-cast-qual
-	CFLAGS		+=	-Wno-missing-noreturn -Wno-disabled-macro-expansion
+	CFLAGS		+=	-Weverything -fsanitize=address,undefined #-Wno-cast-qual -Wno-missing-noreturn -Wno-disabled-macro-expansion -Wno-reserved-id-macro
 else ifeq ($(DEBUG), dev)
 	CFLAGS		=
 endif
