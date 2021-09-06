@@ -60,6 +60,7 @@ SRC				+= $(S_PATH)ft_lstlen.c
 SRC				+= $(S_PATH)ft_lstnew.c
 SRC				+= $(S_PATH)ft_memalloc.c
 SRC				+= $(S_PATH)ft_memcpy.c
+SRC				+= $(S_PATH)ft_memdel.c
 SRC				+= $(S_PATH)ft_memset.c
 SRC				+= $(S_PATH)ft_get_opts_and_args.c
 SRC				+= $(S_PATH)ft_strchr.c

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/02 14:10:28 by arsciand          #+#    #+#             */
-/*   Updated: 2021/05/01 17:08:14 by arsciand         ###   ########.fr       */
+/*   Created: 2021/06/19 17:29:09 by arsciand          #+#    #+#             */
+/*   Updated: 2021/09/06 14:43:52 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 static void          usage(void)
 {
-    fprintf(stderr, "%s%s%s%s%s%s",
+    dprintf(STDERR_FILENO, "%s%s%s%s%s%s",
         "\nUsage: ft_get_ops_args(): ",
         "struct s_opts_conf must be properly configured.\n\n",
         "typedef struct\t\ts_opts_conf\n{\n",
@@ -36,6 +36,7 @@ static void          usage(void)
         "\tconst char\t**allowed_opt_tab_arg;\t('--' + arg)\n}\t\t\tt_opts_conf;\n\n");
 }
 
+/* debug function */
 void                debug_opts_args(t_opts_args *opts_args)
 {
     if (!opts_args)
@@ -46,10 +47,16 @@ void                debug_opts_args(t_opts_args *opts_args)
     printf("%s\n\n%s\n\t\t%s\n%s\n",
         ">> OPTS_ARGS DEBUG",
         "=>  invalid: ", opts_args->invalid, "=>  args:");
-    if (opts_args->args && ft_tablen((const char * const *)opts_args->args))
+    if (opts_args->args)
     {
-        for (size_t i = 0; opts_args->args[i]; i++)
-            printf("\t\t- [%zu] | %s\n", i, opts_args->args[i]);
+        t_lst   *tmp    = opts_args->args;
+
+        while (tmp)
+        {
+            printf("\t\t- [%d] | %s\n", ((t_args_db *)tmp->content)->argc, ((t_args_db *)tmp->content)->arg);
+            tmp = tmp->next;
+        }
+
     }
     else
         printf("\t\t(null)\n");
@@ -72,21 +79,45 @@ void                debug_opts_args(t_opts_args *opts_args)
         printf("\t\t(null)\n");
 }
 
-char                *get_opt_set_arg(t_lst **alst_opt_set, char *to_find)
+/* get arg with his position */
+t_args_db             *get_arg(t_lst **alst_args, int argc)
 {
-    t_lst   *opt_set    = *alst_opt_set;
-    t_lst   *tmp        = NULL;
-    char    *arg        = NULL;
+    t_lst  *args    = *alst_args;
+    size_t  i        = 1;
+
+    if (!args)
+        return (NULL);
+    while (i < (size_t)argc)
+    {
+        if (!args)
+            return (NULL);
+        args = args->next;
+        i++;
+    }
+    if (args)
+        return ((t_args_db *)args->content);
+    return (NULL);
+}
+
+static uint8_t       find_opt_set_db(void *current, void *to_find)
+{
+    t_opt_set_db    *tmp_current = current;
+    char            *tmp_to_find = to_find;
+
+    return (ft_strequ(tmp_current->current, tmp_to_find));
+}
+
+/* get data from an opt_set including his name, argument and his position */
+t_opt_set_db        *get_opt_set_db(t_lst **alst_opt_set, char *to_find)
+{
+    t_lst  *opt_set    = *alst_opt_set;
+    t_lst  *tmp        = NULL;
 
     if (!opt_set)
         return (NULL);
-    if (!(tmp = ft_lstfind(opt_set,
-        ((t_opt_set_db *)opt_set->content)->current,
-        to_find, (int (*)(void*, void*))ft_strequ)))
-        return (NULL);
-    if (!(arg = ((t_opt_set_db *)tmp->content)->arg))
-        return (NULL);
-    return (arg);
+    if ((tmp = ft_lstfind(opt_set, to_find, (int (*)(void*, void*))find_opt_set_db)))
+        return ((t_opt_set_db *)tmp->content);
+    return (NULL);
 }
 
 void                free_opts_args(t_opts_args *opts_args)
@@ -104,14 +135,20 @@ void                free_opts_args(t_opts_args *opts_args)
         opts_args->opt_set = opts_args->opt_set->next;
         free(tmp);
     }
+    while (opts_args->args)
+    {
+        t_lst   *tmp = NULL;
+
+        ft_strdel(&((t_args_db*)(opts_args->args->content))->arg);
+        free(opts_args->args->content);
+        tmp = opts_args->args;
+        opts_args->args = opts_args->args->next;
+        free(tmp);
+    }
     ft_strdel(&opts_args->invalid);
-    ft_tabdel(&opts_args->args);
-    free(opts_args);
-    opts_args = NULL;
 }
 
-static t_opt_set_db *fetch_set_opt(
-                        t_opt_set_db *opt_set_db, char *current, char *arg)
+static t_opt_set_db *fetch_set_opt(t_opt_set_db *opt_set_db, char *current, char *arg, int argc)
 {
     if (!(opt_set_db->current = ft_strdup(current)))
         return (NULL);
@@ -119,44 +156,60 @@ static t_opt_set_db *fetch_set_opt(
         opt_set_db->arg = NULL;
     else if (!(opt_set_db->arg = ft_strdup(arg)))
         return (NULL);
+    opt_set_db->argc = argc;
     return (opt_set_db);
 }
 
-t_opts_args         *ft_get_opts_and_args(
-                        int argc, char **argv, t_opts_conf *opts_conf)
+static t_args_db    *fetch_args(t_args_db *args_db, char *arg, int argc)
 {
-    t_opts_args *opts_args              = NULL;
-    size_t      n_arg                   = 0;
-    char        *args[BUFF_SIZE + 1];
+    if (!(args_db->arg = ft_strdup(arg)))
+        return (NULL);
+    args_db->argc = argc;
+    return (args_db);
+}
 
-    if (!opts_conf || !opts_conf->allowed_opt)
+uint8_t             ft_get_opts_args(t_opts_args *opts_args, t_opts_conf *opts_conf, int argc, char **argv)
+{
+    if (!opts_conf)
     {
         usage();
-        return (NULL);
+        return (FAILURE);
     }
-    ft_memset(args, 0, BUFF_SIZE);
-    if (!(opts_args = ft_memalloc(sizeof(t_opts_args))))
-        return (NULL);
     for (size_t i = 1; i < (size_t)argc; i++)
     {
         t_opt_set_db    opt_set_db;
+        t_args_db       args_db;
         size_t          j                           = 1;
         size_t          z                           = 0;
         char            buffer[BUFF_SIZE];
+        char            buffer_opt[2];
         uint8_t         allowed_found               = FALSE;
         uint8_t         allowed_opt_tab_arg_found   = FALSE;
 
 
         ft_memset(&opt_set_db, 0, sizeof(t_opt_set_db));
-        ft_memset(buffer, 0, sizeof(char));
+        ft_memset(&args_db, 0, sizeof(t_args_db));
+        ft_memset(buffer, 0, sizeof(buffer));
+        ft_memset(buffer_opt, 0, sizeof(buffer_opt));
+
+        if (argv[i][0] == '-' && !argv[i][1])
+        {
+            if (!(ft_lstappend(&opts_args->args, ft_lstnew(fetch_args(&args_db, argv[i], (int)i), sizeof(t_args_db)))))
+                return (FAILURE);
+            continue;
+        }
 
         /* '--' handling */
         if (argv[i][0] == '-' && argv[i][1] == '-' && !argv[i][2])
         {
             i++;
             while (argv[i])
-                if (!(args[n_arg++] = ft_strdup(argv[i++])))
-                    return (NULL);
+            {
+                if (!(ft_lstappend(&opts_args->args, ft_lstnew(fetch_args(&args_db, argv[i], (int)i), sizeof(t_args_db)))))
+                    return (FAILURE);
+                i++;
+
+            }
             break;
         }
 
@@ -165,40 +218,70 @@ t_opts_args         *ft_get_opts_and_args(
             || (!opts_conf->allowed_opt_tab
             && argv[i][0] == '-' && argv[i][1] == '-' && argv[i][2]))
         {
-            while (argv[i][j])
+            /* one string '-' option handler */
+            if (ft_strchr(opts_conf->allowed_opt_arg, argv[i][j]) && argv[i][j + 1])
             {
-                if (!ft_strchr(opts_conf->allowed_opt, argv[i][j]))
-                {
-                    opts_args->all = (uint64_t)argv[i][j] | 1ULL << 63;
-                    for (size_t l = 0; args[l]; l++)
-                        ft_strdel(&args[l]);
-                    return (opts_args);
-                }
                 if (argv[i][j] >= 'a' && argv[i][j] <= 'z')
                     opts_args->all = opts_args->all | (1ULL << (argv[i][j] - 'a'));
                 if (argv[i][j] >= 'A' && argv[i][j] <= 'Z')
                     opts_args->all = opts_args->all | (1ULL << ((argv[i][j] - 'A') + 26));
                 if (argv[i][j] >= '0' && argv[i][j] <= '9')
                     opts_args->all = opts_args->all | (1ULL << ((argv[i][j] - '0') + 52));
-                j++;
-            }
-            if (argv[i + 1] && argv[i + 1][0] != '-')
-            {
-                j--;
-                if (opts_conf->allowed_opt_arg && ft_strchr(opts_conf->allowed_opt_arg, argv[i][j]))
+                size_t k = 0;
+                size_t f = 2;
+                while (argv[i][f])
                 {
-                    buffer[0] = argv[i][j];
-                    buffer[1] = '\0';
-                    if (!(ft_lstappend(&opts_args->opt_set,
-                        ft_lstnew(
-                            fetch_set_opt(&opt_set_db, buffer, argv[i + 1]),
-                                sizeof(t_opt_set_db)))))
-                        return (NULL);
+                    buffer[k] = argv[i][f];
+                    k++;
+                    f++;
                 }
-                else
-                    if (!(args[n_arg++] = ft_strdup(argv[i + 1])))
-                        return (NULL);
-                i++;
+                buffer[k] = '\0';
+                buffer_opt[0] = argv[i][1];
+                buffer_opt[1] = '\0';
+                if (!(ft_lstappend(&opts_args->opt_set,
+                        ft_lstnew(
+                            fetch_set_opt(&opt_set_db, buffer_opt, buffer, (int)i),
+                                sizeof(t_opt_set_db)))))
+                        return (FAILURE);
+            }
+            else
+            {
+                while (argv[i][j])
+                {
+                    if (!ft_strchr(opts_conf->allowed_opt, argv[i][j]))
+                    {
+                        opts_args->all = (uint64_t)argv[i][j] | 1ULL << 63;
+                        opts_args->argc = (int)i;
+                        return (SUCCESS);
+                    }
+                    if (argv[i][j] >= 'a' && argv[i][j] <= 'z')
+                        opts_args->all = opts_args->all | (1ULL << (argv[i][j] - 'a'));
+                    if (argv[i][j] >= 'A' && argv[i][j] <= 'Z')
+                        opts_args->all = opts_args->all | (1ULL << ((argv[i][j] - 'A') + 26));
+                    if (argv[i][j] >= '0' && argv[i][j] <= '9')
+                        opts_args->all = opts_args->all | (1ULL << ((argv[i][j] - '0') + 52));
+                    j++;
+                }
+                if ((argv[i + 1] && argv[i + 1][0] != '-') || !argv[i + 1])
+                {
+                    j--;
+                    if (opts_conf->allowed_opt_arg && ft_strchr(opts_conf->allowed_opt_arg, argv[i][j]))
+                    {
+                        buffer[0] = argv[i][j];
+                        buffer[1] = '\0';
+                        if (!(ft_lstappend(&opts_args->opt_set,
+                            ft_lstnew(
+                                fetch_set_opt(&opt_set_db, buffer, argv[i + 1] ? argv[i + 1] : NULL, (int)i),
+                                    sizeof(t_opt_set_db)))))
+                            return (FAILURE);
+                    }
+                    else
+                    {
+                        if (argv[i + 1] && !(ft_lstappend(&opts_args->args, ft_lstnew(fetch_args(&args_db, argv[i + 1], (int)i + 1), sizeof(t_args_db)))))
+                            return (FAILURE);
+                    }
+                    i++;
+                }
             }
         }
 
@@ -218,7 +301,7 @@ t_opts_args         *ft_get_opts_and_args(
                     /* search if arg requiered */
                     if (opts_conf->allowed_opt_tab_arg)
                         for (size_t w = 0; opts_conf->allowed_opt_tab_arg[w]; w++)
-                            if (ft_strequ(opts_conf->allowed_opt_tab_arg[y], buffer))
+                            if (ft_strequ(opts_conf->allowed_opt_tab_arg[w], buffer))
                                 allowed_opt_tab_arg_found = TRUE;
 
                     if (!(ft_lstappend(&opts_args->opt_set,
@@ -226,8 +309,8 @@ t_opts_args         *ft_get_opts_and_args(
                             fetch_set_opt(&opt_set_db, buffer,
                                 (argv[i + 1] && argv[i + 1][0] != '-'
                                 && allowed_opt_tab_arg_found == TRUE)
-                                ? argv[i + 1] : NULL), sizeof(t_opt_set_db)))))
-                        return (NULL);
+                                ? argv[i + 1] : NULL, (int)i), sizeof(t_opt_set_db)))))
+                        return (FAILURE);
 
                     if (argv[i + 1] && argv[i + 1][0] != '-'
                         && allowed_opt_tab_arg_found == TRUE)
@@ -240,16 +323,13 @@ t_opts_args         *ft_get_opts_and_args(
             {
                 opts_args->all =  1ULL << 63;
                 opts_args->invalid = ft_strdup(buffer);
-                return (opts_args);
+                opts_args->argc = (int)i;
+                return (SUCCESS);
             }
         }
         else
-            if (!(args[n_arg++] = ft_strdup(argv[i])))
-                return (NULL);
+            if (!(ft_lstappend(&opts_args->args, ft_lstnew(fetch_args(&args_db, argv[i], (int)i), sizeof(t_args_db)))))
+                return (FAILURE);
     }
-    if (!(opts_args->args = ft_tabcopy(opts_args->args, (const char * const *)args)))
-        return (NULL);
-    for (size_t l = 0; args[l]; l++)
-        ft_strdel(&args[l]);
-    return (opts_args);
+    return (SUCCESS);
 }
