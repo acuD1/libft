@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/23 11:26:15 by arsciand          #+#    #+#             */
-/*   Updated: 2021/09/09 12:25:21 by arsciand         ###   ########.fr       */
+/*   Created: 2021/09/09 12:19:22 by arsciand          #+#    #+#             */
+/*   Updated: 2021/09/09 12:23:26 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-uint8_t ft_strequ(const char *s1, const char *s2)
+void    ft_lstdelone(t_lst **alst, void (*del)(void *))
 {
-    return (s1 && s2 && ft_strcmp(s1, s2) == 0 ? 1 : 0);
+    if (!alst || !*alst)
+        return ;
+    if (del)
+        del((*alst)->content);
+    if ((*alst)->content)
+        ft_memdel(&(*alst)->content);
+    free(*alst);
+    *alst = NULL;
 }

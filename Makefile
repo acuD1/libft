@@ -54,8 +54,12 @@ PATHS			+=	$(O_PATH)
 
 # Files
 
+SRC				+= $(S_PATH)ft_itoa.c
 SRC				+= $(S_PATH)ft_lstfind.c
 SRC				+= $(S_PATH)ft_lstappend.c
+SRC				+= $(S_PATH)ft_lstdel.c
+SRC				+= $(S_PATH)ft_lstdelone.c
+SRC				+= $(S_PATH)ft_lstiter.c
 SRC				+= $(S_PATH)ft_lstlen.c
 SRC				+= $(S_PATH)ft_lstnew.c
 SRC				+= $(S_PATH)ft_memalloc.c
@@ -73,13 +77,11 @@ SRC				+= $(S_PATH)ft_strlen.c
 SRC				+= $(S_PATH)ft_tabcopy.c
 SRC				+= $(S_PATH)ft_tabdel.c
 SRC				+= $(S_PATH)ft_tablen.c
-SRC				+= $(S_PATH)log.c
 
 
 # Objects and Headers
 
 HDR				+=	libft.h
-HDR				+=	log.h
 
 STD				+=	gnu17
 

@@ -6,17 +6,17 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 13:56:16 by arsciand          #+#    #+#             */
-/*   Updated: 2021/09/06 13:56:26 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/09/09 12:24:31 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_memdel(void **ap)
+void    ft_memdel(void **ap)
 {
-	if (!ap || !*ap)
-		return ;
-	free(*ap);
-	*ap = NULL;
-	return ;
+    if (!ap || !*ap)
+        return ;
+    free(*ap);
+    *ap = NULL;
+    return ;
 }
