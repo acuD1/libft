@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabcopy.c                                       :+:      :+:    :+:   */
+/*   ft_lstiter_ctx.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/26 17:53:18 by arsciand          #+#    #+#             */
-/*   Updated: 2021/05/01 16:44:36 by arsciand         ###   ########.fr       */
+/*   Created: 2021/09/10 16:19:53 by arsciand          #+#    #+#             */
+/*   Updated: 2021/09/10 16:30:46 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char    **ft_tabcopy(char **tab_dest, const char * const *tab_copy)
+uint8_t ft_lstiter_ctx(t_lst *lst, void *context,
+            uint8_t (*f)(void *content, void *context))
 {
-    size_t  i = 0;
-
-    if (!tab_copy
-        || !(tab_dest = malloc(sizeof(char *) * (ft_tablen(tab_copy) + 1))))
-        return (NULL);
-    while (tab_copy[i])
+    if (lst)
     {
-        if (!(tab_dest[i] = ft_strdup(tab_copy[i])))
-        {
-            ft_tabdel(&tab_dest);
-            return (NULL);
-        }
-        i++;
+        if (f(lst->content, context) == FAILURE)
+            return (FAILURE);
+        return (ft_lstiter_ctx(lst->next, context, f));
     }
-    tab_dest[i] = NULL;
-    return (tab_dest);
+    return (SUCCESS);
 }

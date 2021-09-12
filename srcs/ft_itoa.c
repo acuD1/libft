@@ -14,7 +14,7 @@
 
 static size_t   count_n_len(int32_t n)
 {
-    size_t	i;
+    size_t  i;
 
     i = 0;
     while (n)

@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 15:08:00 by arsciand          #+#    #+#             */
-/*   Updated: 2021/09/09 12:26:02 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/09/12 17:28:41 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,33 @@ char                    *ft_itoa(int32_t n);
 t_lst                   *ft_lstappend(t_lst **alst, t_lst *new);
 void                    *ft_lstdel(t_lst **alst, void (*del)(void *));
 void                    ft_lstdelone(t_lst **alst, void (*del)(void *));
-t_lst                   *ft_lstfind(t_lst *lst, void *to_find, int (*f)(void *, void *));
+t_lst                   *ft_lstfind(
+                            t_lst *lst, void *to_find,
+                            int (*f)(void *, void *));
 void                    ft_lstiter(t_lst *lst, void (*f)(void *content));
+uint8_t                 ft_lstiter_ctx(
+                            t_lst *lst, void *context,
+                            uint8_t (*f)(void *content, void *context));
 size_t                  ft_lstlen(t_lst *lst);
 t_lst                   *ft_lstnew(const void *content, size_t content_size);
-uint8_t                 ft_get_opts_args(t_opts_args *opts_args, t_opts_conf *opts_conf, int argc, char **argv);
+uint8_t                 ft_get_opts_args(
+                            t_opts_args *opts_args, t_opts_conf *opts_conf,
+                            int argc, char **argv);
 void                    *ft_memalloc(size_t size);
 void                    *ft_memcpy(void *dst, const void *s, size_t n);
 void                    ft_memdel(void **ap);
 void                    *ft_memset(void *s, int c, size_t len);
 char                    *ft_strchr(const char *s, int c);
-int	                    ft_strcmp(const char *s1, const char *s2);
+int                     ft_strcmp(const char *s1, const char *s2);
 char                    *ft_strcpy(char *dst, const char *s);
 void                    ft_strdel(char **as);
 char                    *ft_strdup(const char *s);
-uint8_t	                ft_strequ(const char *s1, const char *s2);
+uint8_t                 ft_strequ(const char *s1, const char *s2);
 size_t                  ft_strlen(const char *s);
-char                    **ft_tabcopy(char **tab_dest, const char * const *tab_copy);
+char                    **ft_tabcopy(
+                            char **tab_dest, const char * const *tab_copy);
 void                    ft_tabdel(char ***array);
-size_t	                ft_tablen(const char * const *array);
+size_t                  ft_tablen(const char * const *array);
 void                    debug_opts_args(t_opts_args *opt);
 t_args_db               *get_arg(t_lst **alst_args, int argc);
 t_opt_set_db            *get_opt_set_db(t_lst **alst_opt_set, char *to_find);
