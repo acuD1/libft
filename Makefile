@@ -60,6 +60,7 @@ SRC             += $(S_PATH)ft_lstappend.c
 SRC             += $(S_PATH)ft_lstdel.c
 SRC             += $(S_PATH)ft_lstdelone.c
 SRC             += $(S_PATH)ft_lstiter.c
+SRC             += $(S_PATH)ft_lstiter_ctx.c
 SRC             += $(S_PATH)ft_lstlen.c
 SRC             += $(S_PATH)ft_lstnew.c
 SRC             += $(S_PATH)ft_memalloc.c
