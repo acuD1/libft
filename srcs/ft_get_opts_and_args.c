@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 17:29:09 by arsciand          #+#    #+#             */
-/*   Updated: 2021/09/12 17:33:49 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/09/18 16:14:40 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,8 +231,7 @@ uint8_t             ft_get_opts_args(
             && argv[i][0] == '-' && argv[i][1] == '-' && argv[i][2]))
         {
             /* one string '-' option handler */
-            if (ft_strchr(opts_conf->allowed_opt_arg,
-                    argv[i][j]) && argv[i][j + 1])
+            if (ft_strchr(opts_conf->allowed_opt_arg, argv[i][j]) && argv[i][j + 1])
             {
                 if (argv[i][j] >= 'a' && argv[i][j] <= 'z')
                     opts_args->all
@@ -281,7 +280,10 @@ uint8_t             ft_get_opts_args(
                             = opts_args->all | (1ULL << ((argv[i][j] - '0') + 52));
                     j++;
                 }
-                if ((argv[i + 1] && argv[i + 1][0] != '-') || !argv[i + 1])
+
+                if ((argv[i + 1] && argv[i + 1][0] != '-')
+                    || (argv[i + 1] && argv[i + 1][0] == '-' && ft_isnum(argv[i + 1] + 1))
+                    || !argv[i + 1])
                 {
                     j--;
                     if (opts_conf->allowed_opt_arg

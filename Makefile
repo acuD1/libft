@@ -54,6 +54,9 @@ PATHS           +=  $(O_PATH)
 
 # Files
 
+SRC             += $(S_PATH)ft_atol.c
+SRC             += $(S_PATH)ft_isdigit.c
+SRC             += $(S_PATH)ft_isnum.c
 SRC             += $(S_PATH)ft_itoa.c
 SRC             += $(S_PATH)ft_lstfind.c
 SRC             += $(S_PATH)ft_lstappend.c
