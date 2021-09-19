@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 15:08:00 by arsciand          #+#    #+#             */
-/*   Updated: 2021/09/18 16:15:40 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/09/19 11:50:13 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ typedef struct          s_opts_conf
 }                       t_opts_conf;
 
 void                    free_opts_args(t_opts_args *opts_args);
-long                     ft_atol(const char *s);
+int                     ft_atoi(const char *s);
+long                    ft_atol(const char *s);
 uint8_t                 ft_isdigit(char c);
 uint8_t                 ft_isnum(char *str);
 char                    *ft_itoa(int32_t n);
