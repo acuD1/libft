@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/19 17:29:09 by arsciand          #+#    #+#             */
-/*   Updated: 2021/09/18 16:14:40 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/11/18 19:07:00 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_args_db             *get_arg(t_lst **alst_args, int argc)
     return (NULL);
 }
 
-static uint8_t       find_opt_set_db(void *current, void *to_find)
+static int          find_opt_set_db(void *current, void *to_find)
 {
     t_opt_set_db    *tmp_current = current;
     char            *tmp_to_find = to_find;
@@ -189,8 +189,11 @@ uint8_t             ft_get_opts_args(
         t_args_db       args_db;
         size_t          j                           = 1;
         size_t          z                           = 0;
+        size_t          e                           = 0;
+        uint8_t         hyphen                      = 0;
+        uint8_t         hyphen_set                  = FALSE;
         char            buffer[BUFF_SIZE];
-        char            buffer_opt[2];
+        char            buffer_opt[BUFF_SIZE];
         uint8_t         allowed_found               = FALSE;
         uint8_t         allowed_opt_tab_arg_found   = FALSE;
 
@@ -225,9 +228,96 @@ uint8_t             ft_get_opts_args(
             break;
         }
 
+        /* '=' handling */
+        if (ft_strchr(argv[i], '=') && argv[i][0] == '-' && argv[i][1])
+        {
+            while (argv[i][e] != '=')
+            {
+                if (argv[i][0] == '-' && hyphen_set == FALSE)
+                {
+                    hyphen++;
+                    if (argv[i][1] && argv[i][1] == '-')
+                        hyphen++;
+                    e += hyphen;
+                    hyphen_set = TRUE;
+                    continue;
+                }
+                buffer_opt[z] = argv[i][e];
+                z++;
+                e++;
+            }
+            buffer_opt[z] = '\0';
+
+            if (hyphen == 1 && argv[i][2] == '=')
+            {
+                if (ft_strchr(opts_conf->allowed_opt_assign, buffer_opt[0]) && argv[i][e + 1])
+                {
+                    if (buffer_opt[0] >= 'a' &&  buffer_opt[0] <= 'z')
+                        opts_args->all
+                            = opts_args->all | (1ULL << (buffer_opt[0] - 'a'));
+                    if (buffer_opt[0] >= 'A' &&  buffer_opt[0] <= 'Z')
+                        opts_args->all
+                            = opts_args->all | (1ULL << ((buffer_opt[0] - 'A') + 26));
+                    if (buffer_opt[0] >= '0' &&  buffer_opt[0] <= '9')
+                        opts_args->all
+                            = opts_args->all | (1ULL << ((buffer_opt[0] - '0') + 52));
+                    size_t k = 0;
+                    e++;
+                    while (argv[i][e])
+                    {
+                        buffer[k] = argv[i][e];
+                        k++;
+                        e++;
+                    }
+                    buffer[k] = '\0';
+                    if (!(ft_lstappend(&opts_args->opt_set,
+                            ft_lstnew(
+                                fetch_set_opt(&opt_set_db, buffer_opt, buffer,
+                                    (int)i), sizeof(t_opt_set_db)))))
+                            return (FAILURE);
+                    i++;
+                    break;
+                }
+                else
+                {
+                    dprintf(STDERR_FILENO, "ASSIGN BAD");
+                    opts_args->all = (uint64_t)buffer_opt[0] | 1ULL << 63;
+                    opts_args->argc = (int)i;
+                    return (SUCCESS);
+                }
+            }
+
+            if (hyphen == 2 && argv[i][4])
+            {
+                for (size_t y = 0; opts_conf->allowed_opt_assign_tab[y]; y++)
+                {
+                    if (ft_strcmp(buffer_opt, opts_conf->allowed_opt_assign_tab[y]) == 0)
+                    {
+                        e++;
+                        z = 0;
+                        while (argv[i][e])
+                        {
+                            buffer[z] = argv[i][e];
+                            e++;
+                            z++;
+                        }
+                        buffer[z] = '\0';
+                        if (!(ft_lstappend(&opts_args->opt_set,
+                                ft_lstnew(
+                                    fetch_set_opt(&opt_set_db, buffer_opt, buffer,
+                                        (int)i), sizeof(t_opt_set_db)))))
+                            return (FAILURE);
+                        break;
+                    }
+                }
+            }
+
+            continue;
+        }
+
         /* Default '-' 'option' patern */
-        if ((argv[i][0] == '-' && argv[i][1] != '-')
-            || (!opts_conf->allowed_opt_tab
+        if ((argv[i] && argv[i][0] == '-' && argv[i][1] != '-')
+            || (argv[i] && !opts_conf->allowed_opt_tab
             && argv[i][0] == '-' && argv[i][1] == '-' && argv[i][2]))
         {
             /* one string '-' option handler */
@@ -262,7 +352,7 @@ uint8_t             ft_get_opts_args(
             else
             {
                 while (argv[i][j])
-                {
+                // {CHECK RETURN HERE FOR OPTION ALREADY IN OTHER VAR
                     if (!ft_strchr(opts_conf->allowed_opt, argv[i][j]))
                     {
                         opts_args->all = (uint64_t)argv[i][j] | 1ULL << 63;
@@ -312,7 +402,7 @@ uint8_t             ft_get_opts_args(
         }
 
         /* '--' 'option' patern */
-        else if (argv[i][0] == '-' && argv[i][1] == '-'
+        else if (argv[i] && argv[i][0] == '-' && argv[i][1] == '-'
                 && opts_conf->allowed_opt_tab)
         {
             j = 2;
@@ -348,7 +438,7 @@ uint8_t             ft_get_opts_args(
             }
             if (allowed_found == FALSE)
             {
-                opts_args->all =  1ULL << 63;
+                opts_args->all = 1ULL << 63;
                 opts_args->invalid = ft_strdup(buffer);
                 opts_args->argc = (int)i;
                 return (SUCCESS);

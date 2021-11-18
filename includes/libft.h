@@ -6,7 +6,7 @@
 /*   By: arsciand <arsciand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/26 15:08:00 by arsciand          #+#    #+#             */
-/*   Updated: 2021/09/19 11:50:13 by arsciand         ###   ########.fr       */
+/*   Updated: 2021/11/18 16:32:14 by arsciand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # pragma clang diagnostic ignored "-Wreserved-id-macro"
+# pragma clang diagnostic ignored "-Wreserved-identifier"
 
 # include <stddef.h>
 # include <stdint.h>
@@ -66,8 +67,10 @@ typedef struct          s_opts_conf
 {
     const char          *allowed_opt;
     const char          *allowed_opt_arg;
+    const char          *allowed_opt_assign;
     const char          **allowed_opt_tab;
     const char          **allowed_opt_tab_arg;
+    const char          **allowed_opt_assign_tab;
 }                       t_opts_conf;
 
 void                    free_opts_args(t_opts_args *opts_args);
