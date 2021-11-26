@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # pragma clang diagnostic ignored "-Wreserved-id-macro"
-# pragma clang diagnostic ignored "-Wreserved-identifier"
+// # pragma clang diagnostic ignored "-Wreserved-identifier"
 
 # include <stddef.h>
 # include <stdint.h>

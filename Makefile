@@ -88,7 +88,7 @@ SRC             += $(S_PATH)ft_tablen.c
 
 HDR             +=  libft.h
 
-STD             +=  gnu17
+# STD             +=  gnu17
 
 OBJ             =   $(patsubst $(S_PATH)%.c, $(O_PATH)%.o, $(SRC))
 vpath %.h $(H_PATH)
@@ -96,7 +96,7 @@ vpath %.h $(H_PATH)
 # Variables
 
 DEBUG           =
-CFLAGS          =   -Wall -Wextra -Werror -std=$(STD)
+CFLAGS          =   -Wall -Wextra -Werror# -std=$(STD)
 ifeq ($(DEBUG), g)
     CFLAGS      =   -g
 else ifeq ($(DEBUG), fsanitize)
